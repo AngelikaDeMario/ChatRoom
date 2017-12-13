@@ -32,13 +32,17 @@ namespace Client
             {
                 try
                 {
-
+                string messageString = UI.GetInput();
+                byte[] message = Encoding.ASCII.GetBytes(messageString);
+                stream.Write(message, 0, message.Count());
                 }
-
+                catch (SocketException e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.ReadKey();
+                    break;
+                }
             }
-            string messageString = UI.GetInput();
-            byte[] message = Encoding.ASCII.GetBytes(messageString);
-            stream.Write(message, 0, message.Count());
         }
         public void Recieve()
         {
