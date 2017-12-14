@@ -17,7 +17,14 @@ namespace Server
             stream = Stream;
             client = Client;
             UserId = "495933b6-1762-47a1-b655-483510072e73";
+            UserId = 1;
         }
+
+        public bool isConnected
+        {
+            get { return client.Connected; }
+        }
+
         public void Send(string Message)
         {
             byte[] message = Encoding.ASCII.GetBytes(Message);
@@ -25,11 +32,21 @@ namespace Server
         }
         public string Recieve()
         {
-            byte[] recievedMessage = new byte[256];
-            stream.Read(recievedMessage, 0, recievedMessage.Length);
-            string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
-            Console.WriteLine(recievedMessageString);
-            return recievedMessageString;
+            try
+            {
+                while (true)
+                byte[] recievedMessage = new byte[256];
+                stream.Read(recievedMessage, 0, recievedMessage.Length);
+                string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
+                Console.WriteLine(recievedMessageString);
+                return recievedMessageString;
+            }
+
+            catch (Exception e)
+            {
+                string message = "No more, the server is" + e;
+                return message;
+            }
         }
 
     }
