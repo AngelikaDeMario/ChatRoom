@@ -44,24 +44,25 @@ namespace Client
                 }
             }
         }
+
         public void Recieve()
         {
+            while (true)
+            {
+                try
+                { 
             byte[] recievedMessage = new byte[256];
             stream.Read(recievedMessage, 0, recievedMessage.Length);
             UI.DisplayMessage(Encoding.ASCII.GetString(recievedMessage));
         }
-
-
-
-
-
-
-
-
-
-
-
-
+                catch (SocketException e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.ReadKey();
+                    break;
+                }
+        }
+}
 
 
 
