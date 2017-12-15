@@ -27,6 +27,7 @@ namespace Server
         private void AcceptClient()
         {
             while (true)
+            {
                 try
                 {
                     TcpClient clientSocket = default(TcpClient);
@@ -39,7 +40,30 @@ namespace Server
                     username.Wait();
                     Task.Run(() => CreateNewClientChat(clientSocket, client));
                 }
-                catch (Exception e);
+                catch (Exception e)
+                {
+                    logger.ServerClosed();
+                }
+            }
+        }
+
+        private void GetInformationForNotification(Client client)
+        {
+            Task<string> username = Task.Run(() => client.GetUserName());
+            username.Wait();
+            string.Name = username.Result.Trim('\0');
+            NotifyClientOfNewClient(name, client);
+        }
+
+        private void CreateNewClientChat(TcpClient clientSocket, Client client)
+        {
+            while (true)
+            {
+                try
+                {
+
+                }
+            }
         }
         private void Respond(string body)
         {
