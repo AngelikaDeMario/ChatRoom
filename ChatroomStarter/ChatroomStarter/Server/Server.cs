@@ -63,11 +63,36 @@ namespace Server
                 {
                     Task<string> message = Task.Run(() => client.Recieve());
                     message.Wait();
-                    Task<string>[] messages = Task<string>[] { message};
-
+                    Task<string>[] messages = new Task<string>[] { message};
+                    string CurrentMessage = messages[0].Result;
+                    string currentmessage = messages[0].Result;
+                    AddToQueue(currentmessage, client);
+                }
+                catch (Exception e)
+                {
+                    string error = "You have evacuated your communications system";
+                    Console.Write(error);
+                    logger.LogInfo(e);
                 }
             }
         }
+
+        private void Broadcast()
+        {
+            while (true)
+            {
+                if (messages.Count() > 0)
+                {
+                    Message message = RemoveFromQueue();
+                    lock (messageLock)
+                }
+                {
+                    Client removedPerson = null;
+                    foreach(KeyValuePair<int, Client> clients in people)
+                }
+            }
+        }
+
         private void Respond(string body)
         {
              client.Send(body);
