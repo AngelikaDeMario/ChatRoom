@@ -56,5 +56,6 @@ namespace Server
                 return username;
         }
 
+        private string 
     }
 }

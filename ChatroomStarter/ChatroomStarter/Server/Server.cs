@@ -61,6 +61,9 @@ namespace Server
             {
                 try
                 {
+                    Task<string> message = Task.Run(() => client.Recieve());
+                    message.Wait();
+                    Task<string>[] messages = Task<string>[] { message};
 
                 }
             }
