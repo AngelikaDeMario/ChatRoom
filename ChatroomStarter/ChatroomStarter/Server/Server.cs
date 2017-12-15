@@ -21,17 +21,25 @@ namespace Server
         }
         public void Run()
         {
-            AcceptClient();
-            string message = client.Recieve();
-            Respond(message);
+            Task.Run(() = AcceptClient());
+            Task.Run(() = BroadCast());
         }
         private void AcceptClient()
         {
-            TcpClient clientSocket = default(TcpClient);
-            clientSocket = server.AcceptTcpClient();
-            Console.WriteLine("Connected");
-            NetworkStream stream = clientSocket.GetStream();
-            client = new Client(stream, clientSocket);
+            while (true)
+                try
+                {
+                    TcpClient clientSocket = default(TcpClient);
+                    clientSocket = server.AcceptTcpClient();
+                    Console.WriteLine("Connected");
+                    NetworkStream stream = clientSocket.GetStream();
+                    client = new Client(stream, clientSocket);
+                    AddClientToDictionary(client);
+                    Task username = Task.Run(() => GetInformationForNotification(client));
+                    username.Wait();
+                    Task.Run(() => CreateNewClientChat(clientSocket, client));
+                }
+                catch (Exception e);
         }
         private void Respond(string body)
         {
