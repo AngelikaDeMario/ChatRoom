@@ -49,5 +49,12 @@ namespace Server
             }
         }
 
+        public string GetUserName
+        {
+            Send("What is your name, young Padawan?")
+                username = Receive();
+                return username;
+        }
+
     }
 }
