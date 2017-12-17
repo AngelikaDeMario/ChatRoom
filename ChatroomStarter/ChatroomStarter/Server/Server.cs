@@ -63,7 +63,7 @@ namespace Server
                 {
                     Task<string> message = Task.Run(() => client.Recieve());
                     message.Wait();
-                    Task<string>[] messages = new Task<string>[] { message};
+                    Task<string>[] messages = new Task<string>[] { message };
                     string CurrentMessage = messages[0].Result;
                     string currentmessage = messages[0].Result;
                     AddToQueue(currentmessage, client);
@@ -85,17 +85,33 @@ namespace Server
                 {
                     Message message = RemoveFromQueue();
                     lock (messageLock)
-                }
-                {
-                    Client removedPerson = null;
-                    foreach(KeyValuePair<int, Client> clients in people)
+                    {
+                        Client removedPerson = null;
+                        foreach (KeyValuePair<int, Client> clients in people)
+                        {
+                            if (message.sender.IsConnected == true)
+                            {
+                                if (!(message.sender.userName == clients.Value.userName))
+                                {
+                                    clients.Value.Send(message.Body);
+                                }
+                            }
+                            else
+                            {
+                                logger.LogPersonLeft(message.sender);
+                                removedPerson = message.sender;
+                            }
+                        }
+                        RemoveClientFromDictionary(removedPerson);
+                    }
                 }
             }
         }
-
-        private void Respond(string body)
+            private void Respond(string body Client, client)
         {
-             client.Send(body);
+            Client.send(body);
         }
+
+
     }
 }
