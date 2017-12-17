@@ -107,11 +107,52 @@ namespace Server
                 }
             }
         }
-            private void Respond(string body Client, client)
+            private void Respond(string body, Client client)
         {
             Client.send(body);
         }
 
+        private void AddToQueue(string message, Client client)
+        {
+            Message currentMessage = new Message(client, message);
+            messages.Enqueue(currentMessage);
+            logger.LogMessage(message);
+        }
+        private Message RemoveFromQueue()
+        {
+            return messages.Dequeue();
+        }
+
+        private void AddClientToDictionary()
+        {
+            people.Add(UserIDNumber, client);
+            client.UserId = UserIDNumber;
+            UserIDNumber++;
+        }
+        private void RemoveClientFromDictionary()
+        {
+            if (!(client == null))
+            {
+                people.Remove(client.UserId);
+                CheckForPeople(client);
+            }
+        }
+
+        private void CheckForPeople(Client client)
+        {
+            if (people.count <= 0)
+            {
+                logger.ServerClosed();
+                Environment.Exit(0);
+            }
+        }
+        private void NotifyClientOfNewClient(string username, Client client)
+        {
+            string words = userName + "add to chatroom";
+            client.userName = userName;
+            AddToQueue(words, client);
+            logger.LogPerson(userName);
+        }
 
     }
 }
