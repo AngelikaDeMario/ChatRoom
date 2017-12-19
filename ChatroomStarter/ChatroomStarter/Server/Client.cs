@@ -12,12 +12,14 @@ namespace Server
         NetworkStream stream;
         TcpClient client;
         public string UserId;
+        public int UserId;
+        public string UserName;
         public Client(NetworkStream Stream, TcpClient Client)
         {
             stream = Stream;
             client = Client;
             UserId = "495933b6-1762-47a1-b655-483510072e73";
-            UserId = 1;
+          
         }
 
         public bool isConnected
@@ -49,13 +51,13 @@ namespace Server
             }
         }
 
-        public string GetUserName
+        public string GetUserName()
         {
-            Send("What is your name, young Padawan?")
-                username = Receive();
-                return username;
+            Send("What is your name, young Padawan?");
+                userName = Receive();
+                return userName;
         }
 
-        private string 
+
     }
 }

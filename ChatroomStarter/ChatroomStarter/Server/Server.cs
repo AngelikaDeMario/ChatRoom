@@ -14,6 +14,20 @@ namespace Server
     {
         public static Client client;
         TcpListener server;
+        private Queue<Message> messages;
+        private Dictionary<int, Client> people;
+        int UserIDNumber;
+        private Object messageLock = new Object();
+        InterfaceLog logger;
+        public Server(InterfaceLog logger)
+        {
+            server = new TcpListener(IPAddress.Any, 9999);
+            messages = new Queue<Message>();
+            people = new Dictionary<int, Client>();
+            UserIDNumber = 0;
+            this.logger = logger;
+            server.Start();
+        }
         public Server()
         {
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
