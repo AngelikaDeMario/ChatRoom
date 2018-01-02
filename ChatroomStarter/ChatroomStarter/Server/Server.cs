@@ -17,7 +17,7 @@ namespace Server
         private Queue<Message> messages;
         private Dictionary<int, Client> people;
         int UserIDNumber;
-        private Object messageLock = new Object();
+        private object messageLock = new object();
         InterfaceLog logger;
         private string userName;
         private object name;

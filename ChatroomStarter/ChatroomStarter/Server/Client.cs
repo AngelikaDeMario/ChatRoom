@@ -14,6 +14,9 @@ namespace Server
         public string UserId;
         public int UserId;
         public string UserName;
+        private byte[] recievedMessage;
+        internal object userName;
+
         public Client(NetworkStream Stream, TcpClient Client)
         {
             stream = Stream;
@@ -26,6 +29,8 @@ namespace Server
         {
             get { return client.Connected; }
         }
+
+        public bool IsConnected { get; internal set; }
 
         public void Send(string Message)
         {
@@ -58,6 +63,14 @@ namespace Server
                 return userName;
         }
 
+        private object Receive()
+        {
+            throw new NotImplementedException();
+        }
 
+        internal static void send(string body)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
