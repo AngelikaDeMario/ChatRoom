@@ -19,6 +19,9 @@ namespace Server
         int UserIDNumber;
         private Object messageLock = new Object();
         InterfaceLog logger;
+        private string userName;
+        private object name;
+
         public Server(InterfaceLog logger)
         {
             server = new TcpListener(IPAddress.Any, 9999);
@@ -38,6 +41,12 @@ namespace Server
             Task.Run(() = AcceptClient());
             Task.Run(() = BroadCast());
         }
+
+        private object BroadCast()
+        {
+            throw new NotImplementedException();
+        }
+
         private void AcceptClient()
         {
             while (true)
@@ -61,12 +70,22 @@ namespace Server
             }
         }
 
+        private void AddClientToDictionary(Client client)
+        {
+            throw new NotImplementedException();
+        }
+
         private void GetInformationForNotification(Client client)
         {
             Task<string> username = Task.Run(() => client.GetUserName());
             username.Wait();
             string.Name = username.Result.Trim('\0');
             NotifyClientOfNewClient(name, client);
+        }
+
+        private void NotifyClientOfNewClient(object name, Client client)
+        {
+            throw new NotImplementedException();
         }
 
         private void CreateNewClientChat(TcpClient clientSocket, Client client)
@@ -121,7 +140,13 @@ namespace Server
                 }
             }
         }
-            private void Respond(string body, Client client)
+
+        private void RemoveClientFromDictionary(Client removedPerson)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Respond(string body, Client client)
         {
             Client.send(body);
         }
@@ -154,7 +179,7 @@ namespace Server
 
         private void CheckForPeople(Client client)
         {
-            if (people.count <= 0)
+            if (people.Count <= 0)
             {
                 logger.ServerClosed();
                 Environment.Exit(0);
